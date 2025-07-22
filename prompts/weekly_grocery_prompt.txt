@@ -1,0 +1,32 @@
+
+---
+
+### Updated prompt for `weekly_grocery_prompt.txt`
+
+```markdown
+Based on the user's weekly dietary needs with the following inputs:
+
+- Country: {country}
+- Health Goal: {goal}
+- Diet Type: {diet_type}
+- Portion Size: {portion_size}
+- Cuisine Preference: {cuisine}
+- Include Snacks: {include_snacks}
+
+Generate a categorized grocery list that covers all the necessary items for the week, including snacks if specified.
+
+---
+
+**IMPORTANT:**  
+- If you are asked for structured data, respond **only** with valid JSON in this format:
+
+```json
+{
+  "grocery_list": [
+    "Tomatoes",
+    "Spinach",
+    "Brown Rice",
+    "Olive Oil",
+    "Almonds"
+  ]
+}
