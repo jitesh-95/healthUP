@@ -109,16 +109,6 @@ healthup/
 
 ---
 
-## 💸 Cost & Token Usage
-
-| Interaction         | Estimate        |
-| ------------------- | --------------- |
-| GPT-4 (single meal) | \~\$0.01–\$0.03 |
-| Weekly planning     | \~\$0.05–\$0.15 |
-| Monthly usage       | \~\$5 or less   |
-
----
-
 ## 📌 Notes
 
 * Nutrition values are GPT-estimated (no external API yet)
@@ -129,6 +119,7 @@ healthup/
 
 ## 🧠 Future Plans
 
+* 🥔 Grocery list generation according to weekly plan
 * 📈 Weekly goal tracking (calorie alignment)
 * 📊 Integration with nutrition APIs
 * 📆 Auto-rotation logic for repeated meals
