@@ -129,7 +129,7 @@ def handle_generation(inputs: dict):
     #         show_result(result)
     #         return
 
-    st.error(ERROR_MESSAGE)
+    # st.error(ERROR_MESSAGE)
 
 # ---------- UI Buttons ----------
 def show_more_button():
@@ -183,5 +183,5 @@ if st.session_state.active_tab == 'custom':
   show_more_button()
   render_history()
 
-if not st.session_state.history:
+if not st.session_state.history and st.session_state.active_tab == 'custom':
   st.info("Please fill the details to generate a meal plan. 👈")
