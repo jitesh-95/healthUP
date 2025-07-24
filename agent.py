@@ -39,7 +39,7 @@ def safe_parse_json(text):
 # ------------------- asking GPT--------------------------
 def askGPT(prompt):
     response = client.chat.completions.create(
-        model="gpt-4-turbo",
+        model="gpt-4.1",
         messages=[{"role": "user", "content": prompt}],
         temperature=0.7
     )
@@ -92,7 +92,7 @@ def generate_weekly_meal_plan(inputs: dict):
 
     try:
         response = client.chat.completions.create(
-            model="gpt-4-turbo",
+            model="gpt-4.1",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.7,
             stream=True
