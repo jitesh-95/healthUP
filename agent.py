@@ -39,13 +39,15 @@ def safe_parse_json(text):
 # ------------------- asking GPT--------------------------
 def askGPT(prompt):
     response = client.chat.completions.create(
-        model="gpt-4-turbo",
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0.7
-    )
-    content = response.choices[0].message.content.strip()
-    data = safe_parse_json(content)
-    return data if data else {"error": "Invalid GPT response format."}
+            model="gpt-4.1",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.7,
+            stream=True
+        )
+    for chunk in response:
+        delta = chunk.choices[0].delta
+        if hasattr(delta, "content") and delta.content:
+            yield delta.content
 
 #------------------- Custom Meal --------------------------
 def get_customize_meal_plan(ingredients, fitness_goal, specific_target, medical_conditions, portion_size, diet_type, age_group, meal_type, cuisine, additional_details=''):
@@ -91,18 +93,7 @@ def generate_weekly_meal_plan(inputs: dict):
     )
 
     try:
-        response = client.chat.completions.create(
-            model="gpt-4-turbo",
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.7,
-            stream=True
-        )
-        placeholder = st.empty()
-        full_response = ''
-        for chunk in response:
-            if chunk.choices[0].delta:
-                full_response += chunk.choices[0].delta.content
-                placeholder.markdown(full_response)
+        return askGPT(prompt=prompt)
         
         # return full_response
     except Exception:
@@ -110,18 +101,13 @@ def generate_weekly_meal_plan(inputs: dict):
         return {"error": "Internal error during weekly meal plan generation"}
 
 #------------------- Grocery List --------------------------
-def generate_weekly_grocery_list(inputs: dict):
+def generate_weekly_grocery_list(weekly_meal_plan):
     prompt_template = load_prompt_template(GROCERY_PROMPT_PATH)
     if not prompt_template:
         return {"error": "Grocery prompt not available"}
 
     prompt = prompt_template.format(
-        country=inputs.get("country", ""),
-        goal=inputs.get("goal", ""),
-        diet_type=inputs.get("diet_type", ""),
-        portion_size=inputs.get("portion_size", ""),
-        cuisine=inputs.get("cuisine", ""),
-        include_snacks="Yes" if inputs.get("include_snacks") else "No"
+        weekly_meal_plan=weekly_meal_plan
     )
 
     try:

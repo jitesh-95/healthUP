@@ -38,8 +38,9 @@ Please generate a weekly meal plan including:
 
 **IMPORTANT:**  
 - If your output is to be consumed by a system, respond **only** with markdown response:
-- Give data in tabular format (except suggestion)
-- use emojies for better visualization
+- Give data in tabular format only (except suggestion)
+- use emojies in headings for better visualization
+
 e.g.
 
 Weekly Planning:
@@ -51,6 +52,8 @@ Weekly Planning:
   meal_name | ingredients | nutrition_info | cooking_time
   ...
   
+  ---
+
   meals: "Lunch"
   day: "Monday":
   meal_name | ingredients | nutrition_info | cooking_time
@@ -59,6 +62,7 @@ Weekly Planning:
   meal_name | ingredients | nutrition_info | cooking_time
   ...
 
+  ---
 
   "suggestions":
   - suggestion 1

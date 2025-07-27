@@ -39,97 +39,54 @@ with st.sidebar:
         if st.button("🗓️ Weekly Planning", use_container_width=True):
             st.session_state.active_tab = "week"
 
-# ---------- Weekly Results Renderer ----------
-def show_weekly_plan(plan):
-    st.subheader("🗓️ Weekly Meal Plan")
-    print(plan)
-    # for day in plan["week_plan"]:
-    #     st.markdown(f"### 📅 {day['day']}")
-    #     for meal_type, meal in day["meals"].items():
-    #         st.markdown(f"**🍽️ {meal_type.capitalize()}**")
-    #         st.markdown(f"- **Name:** {meal.get('name', 'N/A')}")
-    #         st.markdown(f"- **Description:** {meal.get('description', '')}")
-    #         st.markdown(f"- **Prep Time:** {meal.get('prep_time', '')}")
-    #         st.markdown(f"- **Cook Time:** {meal.get('cook_time', '')}")
-    #         st.markdown(f"- **Nutrition Info:** {meal.get('nutrition_info', '')}")
-    #         st.markdown("**Ingredients:**")
-    #         st.markdown("\n".join(f"- {i}" for i in meal.get("ingredients", [])))
-    #         st.markdown("**Instructions:**")
-    #         st.markdown("\n".join(f"{i+1}. {step}" for i, step in enumerate(meal.get("instructions", []))))
-    #         st.markdown("---")
-
-    # if "grocery_list" in plan:
-    #     st.subheader("🛒 Grocery List")
-    #     grocery_text = "\n".join(plan["grocery_list"])
-    #     st.text_area("Grocery Items", grocery_text, height=200)
-    #     st.download_button("📥 Download Grocery List", grocery_text, file_name="grocery_list.txt")
-
-    # if "suggestions" in plan:
-    #     st.subheader("💡 Suggestions")
-    #     for s in plan["suggestions"]:
-    #         st.markdown(f"- {s}")
-
-# ---------- Custom Meal Result Renderer ----------
-def show_result(result: dict):
-    if "description" in result:
-        st.subheader("🍽️ Meal Description")
-        st.markdown(result["description"])
-
-    st.subheader("🍼 Meal Plan")
-    st.markdown(result["meal_plan"])
-
-    st.subheader("📊 Nutritional Information")
-    st.markdown(result["nutrition_info"])
-
-    st.subheader("💡 Suggestions to Improve")
-    suggestions_list = parse_suggestions(result.get("suggestions", ""))
-    if suggestions_list:
-        for suggestion in suggestions_list:
-            st.markdown(f"- {suggestion}")
-    else:
-        st.info(NO_SUGGESTIONS_TEXT)
-
-    st.subheader("💬 Final Tip")
-    st.markdown(result["tip"])
-
 # ---------- Generation Handler ----------
 def handle_generation(inputs: dict):
-    with st.spinner("Generating your plan..."):
         if st.session_state.active_tab == "custom":
-            result = agent.get_customize_meal_plan(**inputs)
-            st.success(SUCCESS_MESSAGE)
-            st.session_state.latest_inputs = inputs
-            st.session_state.history.append(result)
-            show_result(result)
+            with st.spinner("Generating your customize plan..."):
+                st.session_state.latest_inputs = inputs
+                response_placeholder = st.empty()
+                full_response = ""
+
+                # Render as it streams
+                for chunk in agent.get_customize_meal_plan(**inputs):
+                    full_response += chunk
+                    response_placeholder.markdown(full_response)
+
+                st.session_state.history.append(full_response)
         else:
-            agent.generate_weekly_meal_plan(inputs)
-            # for chunk in weekly_plan:
-            #   if chunk.choices[0].delta:
-            #     # full_response += chunk.choices[0].delta.content
-            #     st.markdown(chunk.choices[0].delta.content + '\n')
+            with st.spinner('Generating your weekly plan & then grocery list...'):
+                response_placeholder = st.empty()
+                full_response = ""
 
-            # if isinstance(weekly_plan, dict) and "week_plan" in weekly_plan:
-            #     # grocery = agent.generate_weekly_grocery_list(weekly_plan["week_plan"])
-            #     result = {
-            #         "week_plan": weekly_plan["week_plan"],
-            #         # "grocery_list": grocery.get("grocery_list", []),
-            #     }
-            # else:
-            #     result = {"error": "Unable to generate weekly meal plan"}
+                for chunk in agent.generate_weekly_meal_plan(inputs):
+                    full_response += chunk
+                    response_placeholder.markdown(full_response)
 
-    # if isinstance(result, dict):
-    #     if "week_plan" in result:
-    #         st.success(SUCCESS_MESSAGE)
-    #         show_weekly_plan(result)
-    #         return
-    #     elif "meal_plan" in result:
-    #         st.success(SUCCESS_MESSAGE)
-    #         st.session_state.latest_inputs = inputs
-    #         st.session_state.history.append(result)
-    #         show_result(result)
-    #         return
+                # Save it for reuse
+                st.session_state["meal_plan"] = full_response
+            
+            st.divider()
 
-    # st.error(ERROR_MESSAGE)
+            with st.spinner('Generating your grocery list...'):
+                response_placeholder = st.empty()
+                grocery_response = ""
+
+                for chunk in agent.generate_weekly_grocery_list(full_response):
+                    grocery_response += chunk
+                    response_placeholder.markdown(grocery_response)
+
+                # Save it for later
+                st.session_state["grocery_text"] = grocery_response
+
+            if "grocery_text" in st.session_state:
+                st.download_button(
+                    label="📥 Download Grocery List",
+                    data=st.session_state["grocery_text"],
+                    file_name="grocery_list.txt",
+                    mime="text/plain",
+                    on_click="ignore"
+                )
+
 
 # ---------- UI Buttons ----------
 def show_more_button():
@@ -147,25 +104,7 @@ def render_history():
             for idx, plan in enumerate(st.session_state.history[-2::-1], start=1):
                 st.markdown(f"**Previous Meal #{idx}**")
 
-                if "description" in plan:
-                    st.markdown(f"**🍽️ Description:** {plan['description']}")
-
-                st.markdown("**🍼 Meal Plan**")
-                st.markdown(plan["meal_plan"])
-
-                st.markdown("**📊 Nutritional Info**")
-                st.markdown(plan["nutrition_info"])
-
-                st.markdown("**💡 Suggestions**")
-                suggestions_list = parse_suggestions(plan.get("suggestions", ""))
-                if suggestions_list:
-                    for s in suggestions_list:
-                        st.markdown(f"- {s}")
-                else:
-                    st.markdown(NO_SUGGESTIONS_TEXT)
-
-                st.markdown("**💬 Final Tip**")
-                st.markdown(plan["tip"])
+                st.markdown(plan)
                 st.markdown("---")
 
 # ---------- Main Execution ----------
