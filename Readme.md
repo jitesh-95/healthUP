@@ -172,5 +172,6 @@ streamlit run app.py
 
 ---
 
-<h3 style="text-align=center;">Made with ❤️ using OpenAI + Streamlit</h3>
-<h3 style="text-align=center; text-style=Italic;">“Your health, one smart meal at a time.”</h3>
+<h3 style="text-align: center;">Made with ❤️ using OpenAI + Streamlit</h3>
+<h3 style="text-align: center; font-style: italic;">“Your health, one smart meal at a time.”</h3>
+
