@@ -1,4 +1,4 @@
-# 🥗 HealthUP – Your Smart Diet Planner Friend
+# 🥗 HealthUP – Your Smart Diet Planner Friend [Visit Here](https://healthup.streamlit.app/)
 
 **HealthUP** is an AI-powered assistant that helps users build personalized, healthy, and goal-driven diet plans — whether for a single meal or an entire week — using OpenAI's GPT-4-turbo.
 
@@ -6,16 +6,16 @@
 
 ## 🚀 Features at a Glance
 
-### ✅ Phase 1 – Meal Customizer (MVP)
+### ✅ Meal Customizer (MVP)
 
 Create a personalized meal plan using:
 
-* Available **ingredients**
-* Your **fitness goals** and **targets**
-* Any **medical conditions**
-* Preferences like **diet type**, **cuisine**, **meal type**, and **portion size**
+* Available **Ingredients**
+* Your **Fitness Goals** and **Targets**
+* Any **Medical Conditions**
+* Preferences like **Diet Type**, **Cuisine**, **Meal Type**, **Age Group**, and **Portion Size**
 
-💡 GPT-generated outputs:
+💡 AI-generated output with typing like animation:
 
 * 📝 Meal description
 * 🥘 Meal plan
@@ -23,19 +23,19 @@ Create a personalized meal plan using:
 * ➕ Suggestions for improvement
 * 💬 Personalized health tip
 
-### 📅 Phase 2 – Weekly Planner & Grocery Assistant
+### 📅 Weekly Planner & Grocery Assistant
 
-Generate a **7-day meal plan** along with a **smart grocery list** using:
+Generate a **7-Day Meal Plan** along with a **Smart Grocery List** using:
 
-* Your past profile info + new inputs (location, climate, goals)
-* Option to include **snacks**
+* Your **Location**,**Fitness Goal**, **Protion Size** **Cusine** and **Diet Type (Veg/Non-veg/Vegan)**
+* Option to include **Snacks**
 * Climate-aware meal suggestions and tips
 
-💡 Outputs:
+💡 AI-generated tabular output with typing like animation:
 
-* Daily meals (breakfast, lunch, snacks, dinner)
+* Daily meals **(breakfast, lunch, snacks, dinner)**
 * Deduplicated grocery list by category
-* Downloadable `.txt` or `.csv`
+* Downloadable `.txt` grocery list
 * Smart tips like bulk-buying and seasonal choices
 
 ---
@@ -57,36 +57,22 @@ Generate a **7-day meal plan** along with a **smart grocery list** using:
 
 ---
 
+## ⚙️ Agent Based Application
+
+* Customize Meal Generator
+* Weekly Meal Plan Generator
+* Grocery List Generator
+
+---
+
 ## ⚙️ Tech Stack
 
 | Layer      | Tool/Library       |
 | ---------- | ------------------ |
 | Frontend   | Streamlit          |
-| Backend    | OpenAI GPT-4-turbo |
+| Backend    | OpenAI GPT-4.1     |
 | State Mgmt | `st.session_state` |
 | Nutrition  | GPT-estimated      |
-
----
-
-## 🗂️ Folder Structure
-
-```bash
-healthup/
-├── app.py
-├── agent.py
-├── requirements.txt
-├── .env
-├── prompts/
-│   ├── meal_prompt.txt
-│   ├── weekly_meal_prompt.txt
-│   └── weekly_grocery_prompt.txt
-├── utils/
-│   ├── helpers.py
-│   └── grocery_generator.py
-├── forms/
-│   ├── customize_meal.py
-│   └── weekly_plan.py
-```
 
 ---
 
@@ -102,31 +88,89 @@ healthup/
 
 ---
 
-## 📦 Deployment Options
-
-* ✅ [Streamlit Cloud](https://streamlit.io/cloud) (1-click deploy)
-* Optional: Render or Vercel (with Python wrapper)
-
----
-
-## 📌 Notes
-
-* Nutrition values are GPT-estimated (no external API yet)
-* Climate, city tier, and age improve contextual meal logic
-* Phase 3 may integrate real nutrition APIs like Edamam or Calorieninjas
-
----
-
 ## 🧠 Future Plans
 
-* 🥔 Grocery list generation according to weekly plan
 * 📈 Weekly goal tracking (calorie alignment)
 * 📊 Integration with nutrition APIs
-* 📆 Auto-rotation logic for repeated meals
 * 🧠 Smarter prompts and dietary suggestions
+* 💪 Exercise recommendations for better results
 
 ---
 
-### Made with ❤️ using OpenAI + Streamlit
+## 📦 Prerequisites
 
-*“Your health, one smart meal at a time.”*
+- Python 3.8 or higher
+- A valid [OpenAI API key](https://platform.openai.com/account/api-keys)
+
+---
+
+## 🛠️ Installation
+
+Follow these steps to clone and run the app locally:
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/jitesh-95/healthUP.git
+cd healthUP
+```
+
+### 2. Create a Virtual Environment (optional but recommended)
+
+```bash
+python -m venv venv
+source venv/bin/activate   # On Windows: venv\Scripts\activate
+```
+
+### 3. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## 🔐 Setup `.env` File
+
+Create a `.env` file in the root directory of the project and add your OpenAI API key like this:
+
+```
+API_KEY=your_openai_api_key_here
+```
+
+> 🔒 Make sure `.env` is listed in `.gitignore` to keep your key secure.
+
+---
+
+## ▶️ Running the App
+
+After setting up everything, start the Streamlit app using:
+
+```bash
+streamlit run app.py
+```
+
+---
+
+## 📁 Project Structure
+
+```
+├── app.py
+├── requirements.txt
+├── .env
+├── README.md
+└── ...
+```
+
+---
+
+## 🧠 Powered by
+
+- [Streamlit](https://streamlit.io/)  
+- [OpenAI](https://platform.openai.com/)  
+- [Python](https://www.python.org/)  
+
+---
+
+<h3 textAlign="center">Made with ❤️ using OpenAI + Streamlit</h3>
+<h3 textAlign="center" textStyle="Italic">“Your health, one smart meal at a time.”</h3>
