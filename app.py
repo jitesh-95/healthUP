@@ -51,7 +51,7 @@ def handle_generation(inputs: dict):
                 for chunk in agent.get_customize_meal_plan(**inputs):
                     full_response += chunk
                     response_placeholder.markdown(full_response)
-
+                
                 st.session_state.history.append(full_response)
         else:
             with st.spinner('Generating your weekly plan & then grocery list...'):
@@ -68,6 +68,7 @@ def handle_generation(inputs: dict):
             st.divider()
 
             with st.spinner('Generating your grocery list...'):
+                st.toast("Generating your grocery list...", icon="⏳")
                 response_placeholder = st.empty()
                 grocery_response = ""
 

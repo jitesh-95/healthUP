@@ -173,7 +173,7 @@ streamlit run app.py
 ---
 
 <div align="center">
-<h3>Made with ❤️ using OpenAI + Streamlit</h3>
 <h3><i>“Your health, one smart meal at a time.”</i></h3>
+<h3>Made with ❤️ using OpenAI + Streamlit</h3>
 </div>
 
