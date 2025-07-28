@@ -57,7 +57,7 @@ Generate a **7-Day Meal Plan** along with a **Smart Grocery List** using:
 
 ---
 
-## ⚙️ Agent Based Application
+## ⚙️ Agent Based Response
 
 * Customize Meal Generator
 * Weekly Meal Plan Generator
@@ -172,5 +172,5 @@ streamlit run app.py
 
 ---
 
-<h3 textAlign="center">Made with ❤️ using OpenAI + Streamlit</h3>
-<h3 textAlign="center" textStyle="Italic">“Your health, one smart meal at a time.”</h3>
+<h3 style="text-align=center;">Made with ❤️ using OpenAI + Streamlit</h3>
+<h3 style="text-align=center; text-style=Italic;">“Your health, one smart meal at a time.”</h3>
